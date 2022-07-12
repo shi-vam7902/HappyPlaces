@@ -2,13 +2,13 @@ const postModel = require("../model/postModel")
 module.exports.addPost= function(req,res)
 {
     let postId = parseInt(Math.random)*100000
-    let placeId = req.body.placeId
+    let place = req.body.place
     let likes = req.body.likes
     let isVerified = req.body.isVerified
     let post = new postModel(
         {
-            "actId":postId,
-            "placeId":placeId,
+            "postId":postId,
+            "place":place,
             "likes":likes,
             "isVerified":isVerified
         }
@@ -37,7 +37,7 @@ module.exports.addPost= function(req,res)
 
 module.exports.getAllPosts = function (req,res)
 {
-    postModel.find(function(err,succes){
+    postModel.find().populate("place").exec(function(err,succes){
         console.log(err);
         if(err)
         {
@@ -60,12 +60,12 @@ module.exports.getAllPosts = function (req,res)
 
 module.exports.updatePost = function(req,res)
 {
-    let placeId = req.body.placeId
+    let place = req.body.place
     let likes = req.body.likes
     let isVerified = res.body.isVerified    
 
     postModel.updateOne(
-        {"placeId":placeId},
+        {"place":place},
         {"likes":likes},
         {"isVerified":isVerified} 
                

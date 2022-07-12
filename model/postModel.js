@@ -3,10 +3,12 @@ const Schema = mongoose.Schema
 const postSchema = new mongoose.Schema(
     {
         postId:{
-            type:Number
+            type:Number,
+            required:true
         },
-        placeId :{
-            type:Number
+        place :{
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Place"
         },
         likes:{
             type:Number

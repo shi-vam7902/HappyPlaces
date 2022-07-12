@@ -4,7 +4,8 @@ const Schema = mongoose.Schema
 const userTypeSchema = new mongoose.Schema(
     {
         userTypeId :{
-            type:Number
+            type:Number,
+            required:true
         },
         userTypeName:{
             type:String

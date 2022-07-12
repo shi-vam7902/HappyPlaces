@@ -57,15 +57,11 @@ module.exports.getAllActivity = function (req,res)
 
 module.exports.updateActivity = function(req,res)
 {
-    let actId = req.body.actId
+     let actId = req.body.actId
     let actType = req.body.actType
     
 
-    activitymodel.updateOne(
-        {"actId":actId},
-        {"actType":actType} 
-               
-    ),function(err,succes)
+    activitymodel.updateOne({_id:actId}, {"actType":actType} ,function(err,succes)
     {
         console.log(err);
         if(err)
@@ -83,13 +79,13 @@ module.exports.updateActivity = function(req,res)
                 data:succes
             })
         }   
-    }
+    })
 }// end of  update Activity
 
 module.exports.deleteActivity = function (req,res)
 {
     let actId = req.body.actId
-    activitymodel.deleteOne({actId:actId},function(err,data){
+    activitymodel.deleteOne({_id:actId},function(err,data){
         console.log(err);
         if(err)
         {

@@ -7,10 +7,12 @@ module.exports.addUserType = function(req,res){
 
     let userType = new userTypeModel(
         {
-            "userTypeId":userTypeId,"userTypeName":userTypeName
+            "userTypeId":userTypeId,
+            "userTypeName":userTypeName
         }
     )// creating model
-    userType.save(function (err,succes) {
+    
+    userType.save(function (err,data) {
     
         if(err)
         {
@@ -26,7 +28,7 @@ module.exports.addUserType = function(req,res){
             res.json({
                 "msg":"UserType Added  added Succesfully",
                 status:200,
-                data:succes
+                data:data
             })
         }
     })
@@ -85,14 +87,14 @@ module.exports.updateUserType = function(req,res)
     let userTypeId = req.body.userTypeId
    
    
-    userTypeModel.updateOne({userTypeId:userTypeId},{userTypeName:userTypeName},function(err,sucess){
+    userTypeModel.updateOne({_id:userTypeId},{userTypeName:userTypeName},function(err,sucess){
         console.log(err);
         if(err)
         {
             res.json({
                 "msg":"SWR",
                 status:-1,
-                data:err
+                data:userTypeId
             })
         }
         else{   

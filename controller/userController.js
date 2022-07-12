@@ -1,140 +1,129 @@
 const userModel = require("../model/userModel")
 
-module.exports.addUser = function(req,res){
-
-    console.log(req.body);
-
-    let userId = req.body.userId
+module.exports.addUser = function (req, res) {
+    let  userID = parseInt(Math.random()*1000000)
+    let userType = req.body.userType
     let firstName = req.body.firstName
     let lastName = req.body.lastName
     let email = req.body.email
     let mobileNo = req.body.mobileNo
     let address = req.body.address
+    let gender = req.body.gender
     let dob = req.body.dob
     let password = req.body.password
+    let falseAttempts = req.body.falseAttempts
+    let isApproved = req.body.isApproved
 
     let user = new userModel(
-        {
-            "userId" : userId,
-            "firstName":firstName,
+        { 
+            "userID": userID, 
+            "userType":userType,
+            "firstName": firstName,
             "lastName":lastName,
             "email":email,
             "mobileNo":mobileNo,
             "address":address,
+            "gender":gender,
             "dob":dob,
-            "password":password
+            "password":password,
+            "falseAttempts":falseAttempts,
+            "isApproved":isApproved
         }
-    )//
+    )
 
-    user.save(function(err,sucess){
-        if(err)
-        {
+    user.save(function (err, data) {
+        if (err) {
             console.log(err);
             res.json({
-                "msg":"user not added",
-                status:-1,
-                data:"SWR"
-            })   
-        }
-        else
-        {
+                msg: "User not added",
+                status: -1,
+                data: "Something went wrong!!"
+            })
+        } else {
             res.json({
-                "msg":"User Added  added Succesfully",
-                status:200,
-                data:sucess
+                msg: "User added",
+                status: 200,
+                data: data
             })
         }
     })
+}//addUser
 
-}// end of add user
-
-
-module.exports.deleteUser = function (req,res)
-{
-    let userId = req.body.userId
-    userModel.deleteOne({userId:userId},function(err,data){
+//getAllUsers
+module.exports.getAllUser = function(req,res){
+    userModel.find().populate("userType").exec(function(err,data){
         console.log(err);
-        if(err)
-        {
+        if(err){
             res.json({
-                "msg":"SMW",
-                status:-1,
-                data:userId
+                msg: "Something went wrong!!!",
+                status: -1,
+                data: err
             })
-        }
-        else
-        {
+        }else{
             res.json({
-                msg:"User removed SuccesFully",
-                status:200,
-                data:data
+                msg: "Users ret...",
+                status: 200,
+                data: data
             })
         }
     })
-}//delete userType
+}//getAllUser
 
-module.exports.getAllUsers = function (req,res)
-{
-    userModel.find(function(err,succes){
+
+//deleteUser
+module.exports.deleteUser = function(req,res){
+
+    let userID = req.body.userID 
+    userModel.deleteOne({_id:userID},function(err,data){
         console.log(err);
-        if(err)
-        {
+        if(err){
             res.json({
-                "msg":"SwR",
-                status:-1,
-                data:err
+                msg: "Something went wrong!!!",
+                status: -1,
+                data: userID
             })
-        }
-        else
-        {
+        }else{
             res.json({
-                "msg":"users retrived",
-                status:200,
-                data:succes
+                msg: "User  removed...",
+                status: 200,
+                data: data
             })
         }
     })
-}// end of get all users
 
-module.exports.updateUser = function(req,res)
-{
-    let userId = req.body.userId
+
+}//deleteUser
+
+//updateUser
+module.exports.updateUser = function(req,res){
+    let userID = req.body.userID
     let firstName = req.body.firstName
     let lastName = req.body.lastName
     let email = req.body.email
     let mobileNo = req.body.mobileNo
     let address = req.body.address
+    let gender = req.body.gender
     let dob = req.body.dob
     let password = req.body.password
+    let falseAttempts = req.body.falseAttempts
+    let isApproved = req.body.isApproved
 
-    userModel.updateOne(
-        {userId:userId},
-        {firstName:firstName},
-        {lastName:lastName},
-        {email:email},
-        {password:password},
-        {mobileNo:mobileNo},
-        {address:address},
-        {dob:dob},
-        {password:password}
-        ),function(err,succes)
-        {
-            console.log(err);
-            if(err)
-            {
-                res.json({
-                    "msg":"SwR",
-                    status:-1,
-                    data:err
-                })
-            }
-            else{
-                res.json({
-                    "msg":"User Updated SucessFully",
-                    status:200,
-                    data:succes
-                })
-            }   
+    userModel.updateOne({_id:userID},{firstName: firstName, lastName:lastName, email:email, mobileNo:mobileNo, address:address, gender:gender, dob:dob, password:password,falseAttempts:falseAttempts,
+    isApproved:isApproved},function(err,data){
+        console.log(err);
+        if(err){
+            res.json({
+                msg: "Something went wrong!!!",
+                status: -1,
+                data: userID
+            })
+        }else{
+            res.json({
+                msg: "User updated...",
+                status: 200,
+                data: data
+            })
         }
-        
-}// end of Update all User
+    })
+
+}//updateUser

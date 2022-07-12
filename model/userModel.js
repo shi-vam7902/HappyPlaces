@@ -1,37 +1,45 @@
-const mongoose = require("mongoose")
-const Schema = mongoose.Schema
+const mongoose = require("mongoose");
 
-const userSchema = new mongoose.Schema(
-    {
-        userId:{
-            type:String
-        },
-        firstName:{
-            type:String
-        },
-        lastName:{
-            type:String
-        },
-        email:{
-            type:String
-        },
-        mobileNo:{
-            type:Number
-        },
-        address:{
-            type:String
-        },
-        gender:{
-            type:String
-        },
-        dob:{
-            type:Number
-        },
-        password:{
-            type:String
-        }
-    }// creating user Schema
+const UserSchema = new mongoose.Schema({
+    userID:{
+        type:Number,
+         required:true
+    },
+    userType:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Usertype"
+    },
+    firstName:{
+        type:String
+    },
+    lastName:{
+        type:String
+    },
+    email:{
+        type:String
+    },
+    mobileNo:{
+        type:Number
+    },
+    address:{
+        type:String
+    },
+    gender:{
+        type:String
+    },
+    dob:{
+        type:Date
+    },
+    password:{
+        type:String
+    },
+    falseAttempts:{
+        type:Number
+    },
+    isApproved:{
+        type:Boolean
+    }
+})
 
-)// creating schema for table 1->userType 
 
-module.exports = mongoose.model("user",userSchema)
+module.exports = mongoose.model("User",UserSchema)

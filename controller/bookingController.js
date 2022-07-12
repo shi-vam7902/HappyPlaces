@@ -2,19 +2,19 @@ const bookingModel = require("../model/bookingModel")
 
 module.exports.addBooking = function(req,res){
 
-    let bookingId = req.body.bookingId
-    let placeId = req.body.placeId
-    let actId = req.body.actId
-    let userId = req.body.userId
+    let booking = parseInt(Math.random()*100000);
+    let place = req.body.place
+    let act = req.body.act
+    let user = req.body.user
     let status = req.body.status
     let noOfPerson = req.body.noOfPerson
 
     let Booking = new bookingModel(
         {
             "bookingId":bookingId,
-            "placeId":placeId,
-            "actId":actId,
-            "userId":userId,
+            "placeId":place,
+            "actId":act,
+            "userId":user,
             "status":status,
             "noOfPerson":noOfPerson
         }
@@ -42,25 +42,26 @@ module.exports.addBooking = function(req,res){
 
 module.exports.getAllbooking = function (req,res)
 {
-    bookingModel.find(function(err,succes){
-        console.log(err);
-        if(err)
-        {
-            res.json({
-                "msg":"SwR",
-                status:-1,
-                data:err
-            })
-        }
-        else
-        {
-            res.json({
-                "msg":"bookings retrived",
-                status:200,
-                data:succes
-            })
-        }
-    })
+   bookingModel.find().populate("place").populate("act").populate("user").exec(function(err,success){
+    console.log(err)
+    if(err)
+    {
+        res.json({
+            "msg":"SwR",
+            status:-1,
+            data:err
+        })
+    }
+    else
+    {
+        res.json({
+            "msg":"Bookings Retrived",
+            status:200,
+            data:success
+        })
+    }
+
+   })
 }// end of get all bookings
 module.exports.updatebooking = function(req,res)
 {
